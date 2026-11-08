@@ -41,7 +41,7 @@ const CloseIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="h-4 w-4 text-black"
+      className="h-4 w-4 text-black dark:text-white"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M18 6l-12 12" />
@@ -171,7 +171,7 @@ const About = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.05 } }}
-              className="flex absolute top-4 right-4 items-center justify-center bg-white rounded-full h-10 w-10 z-[101] shadow-lg hover:bg-neutral-100 transition-colors"
+              className="flex absolute top-4 right-4 items-center justify-center bg-white dark:bg-neutral-800 text-black dark:text-white rounded-full h-10 w-10 z-[101] shadow-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
               onClick={() => setActive(false)}
               aria-label="Close"
             >

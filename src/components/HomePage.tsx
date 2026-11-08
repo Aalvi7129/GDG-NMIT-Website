@@ -116,7 +116,6 @@ export default function HomeScreen() {
 
       spawnTimeout.current = null;
       const obstacle = document.createElement("div");
-      obstacle.className = "absolute";
       obstaclesRef.current?.appendChild(obstacle);
 
       const rand = Math.random();
@@ -167,6 +166,8 @@ export default function HomeScreen() {
         width = 40;
         height = 64;
       }
+
+      obstacle.className = isCloud ? "absolute" : "absolute dark:invert";
 
       const img = document.createElement("img");
       img.src = imgSrc;
@@ -319,7 +320,7 @@ export default function HomeScreen() {
             <img
               src={`/assets/dino_frame${currentFrame}.png`}
               alt="Dino"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain dark:invert"
               style={{ imageRendering: 'pixelated' }}
             />
           </div>

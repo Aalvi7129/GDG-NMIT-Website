@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState, useRef, useEffect } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import Image from "next/image";
 import { Github, Linkedin, Mail, ChevronDown } from "lucide-react";
 import type { Member, TeamData, TierMembers, MemberTierGroup } from "@/types/team";
@@ -709,26 +709,6 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
 const Team: React.FC<TeamProps> = ({ teamData }) => {
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
   const [expandedDomains, setExpandedDomains] = useState<Record<string, boolean>>({});
-
-  // Automatically detect and sync with system/browser dark mode
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const applyTheme = (matches: boolean) => {
-      if (matches) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    };
-
-    applyTheme(mediaQuery.matches);
-
-    const handler = (e: MediaQueryListEvent) => applyTheme(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
 
   const toggleDomainDropdown = (domain: string) => {
     setExpandedDomains((prev) => ({
