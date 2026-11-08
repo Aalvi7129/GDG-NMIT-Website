@@ -73,7 +73,7 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col px-10 py-20 bg-grid bg-white dark:bg-[#0a0a0a] overflow-hidden">
+    <div className="relative min-h-screen flex flex-col px-10 py-20 bg-grid overflow-hidden">
       <div className="pt-4 px-8 sm:px-12 lg:px-16 xl:px-20 mb-4">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
           Projects
@@ -89,7 +89,7 @@ export default function ProjectsPage() {
           onMouseEnter={() => setIsHoverDisabled(true)}
           onMouseLeave={() => setIsHoverDisabled(false)}
           disabled={currentIndex === 0}
-          className={`absolute left-0 z-20 bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-700 text-black dark:text-white p-3 rounded-full shadow transition ${
+          className={`absolute left-0 z-20 bg-gray-200 hover:bg-gray-300 p-3 rounded-full shadow transition ${
             currentIndex === 0 ? "opacity-40 cursor-not-allowed" : ""
           }`}
         >
@@ -147,7 +147,7 @@ export default function ProjectsPage() {
           onMouseEnter={() => setIsHoverDisabled(true)}
           onMouseLeave={() => setIsHoverDisabled(false)}
           disabled={currentIndex === projects.length - 3}
-          className={`absolute right-0 z-20 bg-gray-200 dark:bg-neutral-800 hover:bg-gray-300 dark:hover:bg-neutral-700 text-black dark:text-white p-3 rounded-full shadow transition ${
+          className={`absolute right-0 z-20 bg-gray-200 hover:bg-gray-300 p-3 rounded-full shadow transition ${
             currentIndex === projects.length - 3
               ? "opacity-40 cursor-not-allowed"
               : ""

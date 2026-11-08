@@ -41,7 +41,7 @@ export default function ProjectCard({
         onMouseEnter={onHover}
         onMouseLeave={onLeave}
         style={{ transformOrigin: "center center" }}
-        className="relative cursor-pointer rounded-2xl shadow-md overflow-hidden bg-white dark:bg-[#12141A] border border-transparent dark:border-white/10 w-[280px] transition-all duration-150 hover:shadow-xl"
+        className="relative cursor-pointer rounded-2xl shadow-md overflow-hidden bg-white w-[280px] transition-all duration-150 hover:shadow-xl"
       >
         {/* Team image above card */}
         <div className="absolute -top-20 left-1/2 -translate-x-1/2 z-10">
@@ -58,16 +58,16 @@ export default function ProjectCard({
         <div className="h-36" style={{ backgroundColor: color }}></div>
 
         {/* Bottom content */}
-        <div className="p-5 mt-16 text-gray-900 dark:text-white">
-          <h2 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{title}</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{description}</p>
+        <div className="p-5 mt-16">
+          <h2 className="text-lg font-semibold mb-2">{title}</h2>
+          <p className="text-sm text-gray-600 mb-4">{description}</p>
 
           <div className="flex gap-2 mb-3">
-            <span className="bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-gray-200 text-xs px-3 py-1 rounded">xyx</span>
-            <span className="bg-gray-200 dark:bg-white/10 text-gray-800 dark:text-gray-200 text-xs px-3 py-1 rounded">xyx</span>
+            <span className="bg-gray-200 text-xs px-3 py-1 rounded">xyx</span>
+            <span className="bg-gray-200 text-xs px-3 py-1 rounded">xyx</span>
           </div>
 
-          <button className="text-sm font-medium text-gray-800 dark:text-gray-200 hover:underline flex items-center gap-1">
+          <button className="text-sm font-medium text-gray-800 hover:underline flex items-center gap-1">
             Learn More →
           </button>
         </div>

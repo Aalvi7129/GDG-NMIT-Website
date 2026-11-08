@@ -116,7 +116,7 @@ const Domain = () => {
                 }`}
               >
                 <div
-                  className="w-full h-full rounded-xl border-2 border-black dark:border-white/20 bg-white dark:bg-[#12141A] p-6 sm:p-7 md:p-6 lg:p-8 flex flex-col justify-center"
+                  className="w-full h-full rounded-xl border-2 border-black bg-white p-6 sm:p-7 md:p-6 lg:p-8 flex flex-col justify-center"
                   style={{
                     boxShadow: `-12px 12px 0px ${
                       domain.color === "border-g-blue"
@@ -129,10 +129,10 @@ const Domain = () => {
                     }`,
                   }}
                 >
-                  <h3 className="text-2xl sm:text-3xl md:text-xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 md:mb-3 lg:mb-4">
+                  <h3 className="text-2xl sm:text-3xl md:text-xl lg:text-3xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-3 lg:mb-4">
                     {domain.name}
                   </h3>
-                  <p className="text-lg sm:text-xl md:text-base lg:text-xl text-gray-700 dark:text-gray-300 leading-relaxed sm:leading-normal md:leading-relaxed lg:leading-snug">
+                  <p className="text-lg sm:text-xl md:text-base lg:text-xl text-gray-700 leading-relaxed sm:leading-normal md:leading-relaxed lg:leading-snug">
                     {domain.description}
                   </p>
                 </div>
