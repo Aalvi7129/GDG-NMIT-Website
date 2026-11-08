@@ -30,13 +30,12 @@ const PAGE = "#e8eaed";
 async function getNextEvent(): Promise<BannerEvent | null> {
   try {
     const { client } = await connectToDatabase();
-    // Event dates are stored as UTC midnight, so today's event still counts as upcoming today
-    const startOfToday = new Date();
-    startOfToday.setUTCHours(0, 0, 0, 0);
+    // Same rule as /api/events (date >= now), so the banner and the page agree on what's upcoming
+    const now = new Date();
     const event = await client
       .db()
       .collection<BannerEvent>("events")
-      .find({ date: { $gte: startOfToday }, title: { $exists: true, $ne: "" } })
+      .find({ date: { $gte: now }, title: { $exists: true, $ne: "" } })
       .sort({ date: 1 })
       .limit(1)
       .next();
