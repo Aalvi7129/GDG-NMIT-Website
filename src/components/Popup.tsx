@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-
 export default function Popup() {
   const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
@@ -12,18 +11,14 @@ export default function Popup() {
   useEffect(() => {
     const hasSeenPopup = sessionStorage.getItem("hasSeenPopup");
 
-    // Only show popup if not seen
     if (!hasSeenPopup) {
       setShowPopup(true);
       sessionStorage.setItem("hasSeenPopup", "true");
 
-      // Automatically clear the flag after 30 minutes
       const removeTimer = setTimeout(() => {
         sessionStorage.removeItem("hasSeenPopup");
-        console.log("sessionStorage cleared after 30 minutes");
-      }, 30 * 60 * 1000); // 30 minutes
+      }, 30 * 60 * 1000);
 
-      // Cleanup on unmount
       return () => clearTimeout(removeTimer);
     }
   }, []);
@@ -36,7 +31,7 @@ export default function Popup() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-lg p-4 "
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-lg p-4"
           onClick={() => setShowPopup(false)}
           aria-hidden={!showPopup}
         >
@@ -60,7 +55,7 @@ export default function Popup() {
 
             <div className="mb-4 sm:mb-6">
               <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-300 mb-2">
-                Join Our Team
+                GDGoC 2026-27
               </h3>
               <div className="h-1 w-20 sm:w-24 bg-gradient-to-r from-g-blue via-g-red to-g-yellow rounded-full" />
             </div>
@@ -68,13 +63,13 @@ export default function Popup() {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex-1">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-white">
-                  GDG NMIT is Hiring!
+                  Google Cloud: Learn with Communities
                 </h2>
                 <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed">
-                  Want to build, learn, and grow with GDG NMIT? We&apos;re looking for passionate students to join our team and contribute to exciting tech initiatives.
+                  Join GDG on Campus NMIT for hands-on Google Cloud and Generative AI skill labs. Earn official digital badges, track your chapter progress, and qualify for exclusive swags!
                 </p>
 
-                <div className="mt-5 sm:mt-7 flex justify-center items-center ">
+                <div className="mt-5 sm:mt-7 flex justify-center items-center">
                   <button
                     onClick={() => {
                       setShowPopup(false);
