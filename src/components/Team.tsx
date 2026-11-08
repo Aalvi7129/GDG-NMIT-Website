@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState, useRef } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Github, Linkedin, Mail, ChevronDown } from "lucide-react";
 import type { Member, TeamData, TierMembers, MemberTierGroup } from "@/types/team";
@@ -421,9 +421,36 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
   const [tilt, setTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [glare, setGlare] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
   const [isCardHovered, setIsCardHovered] = useState<boolean>(false);
+  const [isToggledOpen, setIsToggledOpen] = useState<boolean>(false);
   const [activeQuadrant, setActiveQuadrant] = useState<string | null>(null);
 
+  // Close open bezel when clicking/tapping outside
+  useEffect(() => {
+    if (!isToggledOpen) return;
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        setIsToggledOpen(false);
+        setActiveQuadrant(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
+  }, [isToggledOpen]);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Keep card completely static on phone/touch screens (no 3D tilt tracking)
+    if (
+      typeof window !== "undefined" &&
+      (window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches)
+    ) {
+      return;
+    }
+
     const el = cardRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -449,7 +476,12 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
     setActiveQuadrant(null);
   };
 
-  const isMenuOpen = isCardHovered;
+  const handleCardClick = () => {
+    // Clicking or tapping on the card toggles the circular bezel open/closed
+    setIsToggledOpen((prev) => !prev);
+  };
+
+  const isMenuOpen = isCardHovered || isToggledOpen;
 
   // Continuous Precision Circle Bezel Quadrants that pop up on hover
   const quadrants = [
@@ -503,15 +535,16 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
     <div className="relative group/tilt w-full max-w-[340px] sm:max-w-[360px]">
       {/* Outer Offset Accent Frame Shell */}
       <div
-        className={`absolute inset-0 rounded-[42px] transition-all duration-300 ${palette.accentBg} translate-x-2 translate-y-2 opacity-90 group-hover/tilt:translate-x-3 group-hover/tilt:translate-y-3 shadow-xl`}
+        className={`absolute inset-0 rounded-[42px] transition-all duration-300 ${palette.accentBg} translate-x-2 translate-y-2 opacity-90 md:group-hover/tilt:translate-x-3 md:group-hover/tilt:translate-y-3 shadow-xl`}
       />
 
       {/* Main 3D Card Surface */}
       <div
         ref={cardRef}
+        onClick={handleCardClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`relative z-10 w-full rounded-[38px] bg-white dark:bg-[#0E1015] border-[3.5px] ${palette.borderColor} p-6 pb-7 flex flex-col items-center justify-between shadow-xl dark:shadow-2xl transition-all select-none overflow-hidden`}
+        className={`relative z-10 w-full rounded-[38px] bg-white dark:bg-[#0E1015] border-[3.5px] ${palette.borderColor} p-6 pb-7 flex flex-col items-center justify-between shadow-xl dark:shadow-2xl transition-all select-none overflow-hidden cursor-pointer`}
         style={{
           transformStyle: "preserve-3d",
           transform: isCardHovered
@@ -653,7 +686,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
             photoUrl={member.photoUrl}
             name={member.name}
             palette={palette}
-            isHovered={isCardHovered}
+            isHovered={isMenuOpen}
           />
         </div>
 
@@ -671,7 +704,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
             </span>
           ) : (
             <span className="text-[11px] font-mono tracking-widest text-gray-500 dark:text-gray-400 uppercase transition-opacity duration-300">
-              {isMenuOpen ? "Select Profile" : "Hover To Connect"}
+              {isMenuOpen ? "Select Profile" : "Tap / Hover To Connect"}
             </span>
           )}
         </div>
