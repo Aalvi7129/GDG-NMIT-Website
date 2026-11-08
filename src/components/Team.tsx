@@ -243,7 +243,7 @@ function describeAnnularSector(
 }
 
 // -------------------------------------------------------------
-// GDG Custom Picture Frame (Duplicating the Reference Design)
+// GDG Custom Picture Frame (Restored Original Components)
 // -------------------------------------------------------------
 interface GDGPictureFrameProps {
   photoUrl?: string;
@@ -258,6 +258,8 @@ const GDGPictureFrame: React.FC<GDGPictureFrameProps> = ({
   palette,
   isHovered,
 }) => {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <div
       style={{ transform: "translateZ(30px)" }}
@@ -266,17 +268,27 @@ const GDGPictureFrame: React.FC<GDGPictureFrameProps> = ({
       }`}
     >
       {/* 1. Underlying Circular Photo with Next.js Image */}
-      <div className="absolute inset-0 rounded-full overflow-hidden border-[2.5px] border-black bg-neutral-900 shadow-lg">
-        <Image
-          src={photoUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500"}
-          alt={name}
-          fill
-          className={`object-cover transition-all duration-500 ease-out ${
-            isHovered
-              ? "grayscale-0 contrast-100 scale-105"
-              : "grayscale contrast-[1.08] brightness-95 scale-100"
-          }`}
-        />
+      <div className="absolute inset-0 rounded-full overflow-hidden border-[2.5px] border-black bg-gray-100 dark:bg-neutral-800 shadow-lg">
+        {photoUrl && !imgError ? (
+          <Image
+            src={photoUrl}
+            alt={name}
+            fill
+            sizes="(max-width: 640px) 196px, 196px"
+            className="object-cover transition-all duration-300 ease-out"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div
+            className={`w-full h-full flex flex-col items-center justify-center ${palette.primaryBg} text-white font-black text-3xl`}
+          >
+            {name
+              .split(" ")
+              .map((n) => n[0])
+              .slice(0, 2)
+              .join("")}
+          </div>
+        )}
       </div>
 
       {/* 2. Vector Frame Graphics Layer */}
@@ -439,35 +451,35 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
 
   const isMenuOpen = isCardHovered;
 
-  // Quadrants Configuration
+  // Continuous Precision Circle Bezel Quadrants that pop up on hover
   const quadrants = [
     {
       id: "TL",
       label: "GitHub Profile",
-      startAngle: 205,
-      endAngle: 265,
-      iconCenterAngle: 235,
-      iconRadius: 110,
+      startAngle: 275,
+      endAngle: 355,
+      iconCenterAngle: 315,
+      iconRadius: 113,
       url: member.githubUrl || "https://github.com",
       Icon: Github,
     },
     {
       id: "TR",
       label: "LinkedIn Profile",
-      startAngle: 295,
-      endAngle: 355,
-      iconCenterAngle: 325,
-      iconRadius: 110,
+      startAngle: 5,
+      endAngle: 85,
+      iconCenterAngle: 45,
+      iconRadius: 113,
       url: member.linkedinUrl || "https://linkedin.com",
       Icon: Linkedin,
     },
     {
       id: "BR",
       label: "X Profile",
-      startAngle: 25,
-      endAngle: 85,
-      iconCenterAngle: 55,
-      iconRadius: 110,
+      startAngle: 95,
+      endAngle: 175,
+      iconCenterAngle: 135,
+      iconRadius: 113,
       url: member.twitterUrl || "https://x.com",
       Icon: ({ className }: { className?: string }) => (
         <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -478,10 +490,10 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
     {
       id: "BL",
       label: "Email",
-      startAngle: 115,
-      endAngle: 175,
-      iconCenterAngle: 145,
-      iconRadius: 110,
+      startAngle: 185,
+      endAngle: 265,
+      iconCenterAngle: 225,
+      iconRadius: 113,
       url: `mailto:${member.name.toLowerCase().replace(/\s+/g, "")}@gmail.com`,
       Icon: Mail,
     },
@@ -540,28 +552,27 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
 
         <div className="w-full h-[1px] bg-gray-200 dark:bg-white/10 mb-4" />
 
-        {/* ---------------- CENTER STAGE: AVATAR & RADIAL MENU ---------------- */}
+        {/* ---------------- CENTER STAGE: AVATAR & CIRCULAR BEZEL ---------------- */}
         <div className="relative w-[260px] h-[260px] flex items-center justify-center my-2">
-          {/* SVG 4-Quadrant BeamNG Radial Menu */}
+          {/* SVG Circular Bezel Ring that pops up on hover */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible"
             viewBox="0 0 260 260"
           >
             <defs>
-              <filter id={`glow-hover-${member._id}`} x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor={palette.sectorHover} floodOpacity="0.9" />
+              <filter id={`glow-hover-${member._id}`} x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor={palette.sectorHover} floodOpacity="0.8" />
               </filter>
-              <filter id={`glow-palette-${member._id}`} x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor={palette.hex} floodOpacity="0.6" />
+              <filter id={`bezel-shadow-${member._id}`} x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000000" floodOpacity="0.25" />
               </filter>
             </defs>
 
-            {/* 4 Annular Radial Quadrants */}
+            {/* 4 Annular Bezel Quadrants forming a complete circular bezel that pops up on hover */}
             {quadrants.map((quad) => {
               const isQuadActive = activeQuadrant === quad.id;
-              // Animate inner & outer radius based on open/hover state
-              const rInner = 97;
-              const rOuter = isMenuOpen ? (isQuadActive ? 128 : 122) : 98;
+              const rInner = 99;
+              const rOuter = isQuadActive ? 130 : 126;
               const pathD = describeAnnularSector(130, 130, rInner, rOuter, quad.startAngle, quad.endAngle);
 
               return (
@@ -571,12 +582,19 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
                   fill={isQuadActive ? palette.sectorHover : palette.sectorFill}
                   stroke="#000000"
                   strokeWidth="2.5"
-                  className="transition-all duration-300 ease-out cursor-pointer pointer-events-auto"
-                  filter={isQuadActive ? `url(#glow-hover-${member._id})` : isMenuOpen ? `url(#glow-palette-${member._id})` : undefined}
+                  className="cursor-pointer"
+                  filter={isQuadActive ? `url(#glow-hover-${member._id})` : isMenuOpen ? `url(#bezel-shadow-${member._id})` : undefined}
                   style={{
-                    opacity: isMenuOpen ? (isQuadActive ? 1 : 0.88) : 0,
-                    transform: isMenuOpen ? "scale(1)" : "scale(0.92)",
+                    opacity: isMenuOpen ? (isQuadActive ? 1 : 0.95) : 0,
+                    transform: isMenuOpen
+                      ? isQuadActive
+                        ? "scale(1.02)"
+                        : "scale(1)"
+                      : "scale(0.85)",
                     transformOrigin: "130px 130px",
+                    pointerEvents: isMenuOpen ? "auto" : "none",
+                    transition:
+                      "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease-out, fill 0.2s ease",
                   }}
                   onMouseEnter={() => setActiveQuadrant(quad.id)}
                   onMouseLeave={() => setActiveQuadrant(null)}
@@ -589,15 +607,16 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
             })}
           </svg>
 
-          {/* Quadrant Icon Nodes Layer */}
+          {/* Quadrant Icon Nodes Layer on the Circular Bezel */}
           <div
-            style={{ transform: "translateZ(45px)" }}
+            style={{ transform: "translateZ(38px)" }}
             className="absolute inset-0 pointer-events-none z-25"
           >
             {quadrants.map((quad) => {
               const isQuadActive = activeQuadrant === quad.id;
               const coords = polarToCartesian(130, 130, quad.iconRadius, quad.iconCenterAngle);
               const IconComp = quad.Icon;
+              const iconColor = palette.id === "yellow" ? "text-black" : "text-white";
 
               return (
                 <a
@@ -606,30 +625,30 @@ const TiltCard: React.FC<TiltCardProps> = ({ member, domain, palette }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${member.name} on ${quad.label}`}
-                  title={`${quad.label} Profile`}
+                  title={`${quad.label}`}
                   style={{
                     left: `${coords.x}px`,
                     top: `${coords.y}px`,
                     opacity: isMenuOpen ? 1 : 0,
-                    transform: `translate(-50%, -50%) scale(${isQuadActive ? 1.25 : 1})`,
-                    filter: isQuadActive ? `drop-shadow(0 0 6px ${palette.sectorHover})` : undefined,
+                    transform: isMenuOpen
+                      ? `translate(-50%, -50%) scale(${isQuadActive ? 1.25 : 1})`
+                      : "translate(-50%, -50%) scale(0.5)",
+                    pointerEvents: isMenuOpen ? "auto" : "none",
+                    transition:
+                      "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease-out",
                   }}
-                  className={`absolute w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 pointer-events-auto cursor-pointer ${
-                    isQuadActive
-                      ? "text-white"
-                      : "text-black"
-                  }`}
+                  className={`absolute w-7 h-7 rounded-full flex items-center justify-center cursor-pointer ${iconColor}`}
                   onMouseEnter={() => setActiveQuadrant(quad.id)}
                   onMouseLeave={() => setActiveQuadrant(null)}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <IconComp className="w-4 h-4" />
+                  <IconComp className="w-4 h-4 drop-shadow" />
                 </a>
               );
             })}
           </div>
 
-          {/* Central Circular Avatar with GDG Picture Frame */}
+          {/* Central Circular Avatar with Restored GDG Picture Frame */}
           <GDGPictureFrame
             photoUrl={member.photoUrl}
             name={member.name}
