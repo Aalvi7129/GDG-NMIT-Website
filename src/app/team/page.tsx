@@ -12,7 +12,7 @@ export default function TeamPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setTimerDone(true), 3500);
+    const timer = setTimeout(() => setTimerDone(true), 300);
     return () => clearTimeout(timer);
   }, []);
 

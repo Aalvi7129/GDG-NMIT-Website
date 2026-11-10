@@ -29,6 +29,8 @@ export interface IMember {
   domain: Domain;
   tier: Tier;
   photoUrl: string;
+  linkedinUrl?: string;
+  githubUrl?: string;
 }
 
 export interface ITeam extends Document {
@@ -51,7 +53,9 @@ const MemberSchema = new Schema<IMember>({
     required: true,
     enum: Object.values(Tier)
   },
-  photoUrl: { type: String }
+  photoUrl: { type: String },
+  linkedinUrl: { type: String },
+  githubUrl: { type: String },
 });
 
 const TeamSchema = new Schema<ITeam>({
