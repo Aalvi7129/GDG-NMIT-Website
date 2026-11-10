@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "../../../lib/mongodb";
+import { startOfTodayIST } from "../../../lib/eventDates";
 
 interface EventData {
   _id: string;
@@ -35,7 +36,8 @@ function formatDateDDMMYYYY(date: Date): string {
 }
 
 export async function GET() {
-  const currentDate = new Date();
+  // today's date in IST, so an event stays upcoming for its whole day
+  const currentDate = startOfTodayIST();
 
   try {
     const { client } = await connectToDatabase();
@@ -94,11 +96,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const now = new Date();
-
     const existingEvent = await events.findOne({
       title: body.title,
-      date: { $gte: now },
+      date: { $gte: startOfTodayIST() },
     });
 
     if (existingEvent) {

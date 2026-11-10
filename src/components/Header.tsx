@@ -13,6 +13,7 @@ interface NavItem {
 }
 const navItems: NavItem[] = [
   { name: "ABOUT US", path: "/about", color: "blue" },
+  { name: "DOMAINS", path: "/domain", color: "green" },
   { name: "UPCOMING EVENT", path: "/upcomingevent", color: "green"},
   { name: "EVENTS", path: "/event", color: "blue" },
   { name: "TEAM", path: "/team", color: "green" },
@@ -71,25 +72,25 @@ const Header: React.FC = () => {
         />
         <div className="flex flex-col align-left justify-center">
           <h1 className="ml-2 text-xl lg:text-2xl text-black dark:text-white leading-6">
-            <span className="block sm:hidden text-xl font-bold">GDG NMIT</span>
-            <span className="hidden sm:block">Google Developer Groups</span>
+            <span className="block sm:hidden md:block lg:hidden text-xl font-bold">GDG NMIT</span>
+            <span className="hidden sm:block md:hidden lg:block">Google Developer Groups</span>
           </h1>
-          <h2 className="hidden sm:block ml-2 text-md lg:text-md text-g-blue leading-4">
+          <h2 className="hidden sm:block md:hidden lg:block ml-2 text-md lg:text-md text-g-blue leading-4">
             Nitte Meenakshi Institute of Technology
           </h2>
         </div>
       </Link>
 
       <div className="flex-grow flex justify-end">
-        <nav className="hidden h-12 lg:flex items-center justify-center border border-g-gray/60 rounded-full">
-          <ul className="flex px-2 flex-wrap items-center gap-2 text-black dark:text-white text-sm lg:text-base">
+        <nav className="hidden h-12 md:flex items-center justify-center border border-g-gray/60 rounded-full">
+          <ul className="flex px-1.5 lg:px-2 flex-nowrap whitespace-nowrap items-center gap-1 lg:gap-1.5 xl:gap-2 text-black dark:text-white text-[13px] lg:text-sm xl:text-base">
             {navItems.map((item) => {
               const isActive = pathname === item.path;
               return (
                 <li key={item.name}>
                   <a
                     href={item.path}
-                    className={`px-3.5 py-1.5 rounded-full transition-all duration-300 ease-in-out
+                    className={`px-2.5 lg:px-3 xl:px-3.5 py-1.5 rounded-full transition-all duration-300 ease-in-out
                 ${
                   isActive
                     ? `${activeColorMap[item.color]} text-white`
@@ -107,7 +108,7 @@ const Header: React.FC = () => {
         </nav>
       </div>
 
-      <div className="lg:hidden ml-auto pr-4 flex justify-end items-center">
+      <div className="md:hidden ml-auto pr-4 flex justify-end items-center">
         <button
           className="flex flex-col justify-between w-6 h-5 focus:outline-none cursor-pointer"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -119,7 +120,7 @@ const Header: React.FC = () => {
       </div>
 
       <div
-        className={`fixed inset-0 bg-black/50 lg:hidden z-40 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/50 md:hidden z-40 transition-opacity duration-300 ${
           menuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setMenuOpen(false)}
@@ -127,7 +128,7 @@ const Header: React.FC = () => {
 
       <div
         ref={mobileMenuRef}
-        className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white dark:bg-black shadow-2xl lg:hidden z-50
+        className={`fixed top-0 right-0 h-full w-3/4 max-w-sm bg-white dark:bg-black shadow-2xl md:hidden z-50
     transform transition-transform duration-300 ease-in-out border-l border-gray-200 dark:border-gray-800
     ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
       >

@@ -54,7 +54,6 @@ erDiagram
         string phone
         string message
         date date "ISO DateTime"
-        boolean citadel_verified
     }
 ```
 
@@ -177,7 +176,7 @@ Stores community events, hackathons, and workshops.
 ---
 
 ### 3.4. `contacts` Collection
-Stores contact and collaboration messages sent through the website contact form. Verified and sanitized by Citadel.
+Stores contact and collaboration messages sent through the website contact form.
 
 * **Live Document Count:** 13 documents
 * **Insertion Endpoint:** `POST /api/contact`
@@ -190,7 +189,6 @@ Stores contact and collaboration messages sent through the website contact form.
 | `phone` | `string` | Yes | Sender telephone number |
 | `message` | `string` | Yes | Message body |
 | `date` | `Date` (ISODate) | Yes | Submission timestamp |
-| `citadel_verified` | `boolean` | No | Flag indicating request passed security filters |
 
 #### Sample Document:
 ```json
@@ -200,8 +198,7 @@ Stores contact and collaboration messages sent through the website contact form.
   "email": "sakshi.sankeshwari@expinfi.com",
   "phone": "9606678465",
   "message": "Hey GDG NMIT Team, This is Sakshi from Bhanzu...",
-  "date": "2025-11-10T09:38:54.137Z",
-  "citadel_verified": true
+  "date": "2025-11-10T09:38:54.137Z"
 }
 ```
 
